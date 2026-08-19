@@ -10,7 +10,11 @@ const { createClient } = require('@supabase/supabase-js');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ========== Supabase Client ==========
+// ========== من .env ==========
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'atelier2026';
+
+// ========== Supabase ==========
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -19,7 +23,6 @@ const supabase = createClient(
 const UPLOADS_DIR = path.join(__dirname, 'public', 'uploads');
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
-// ---------- تخزين الجلسات (بسيط في الذاكرة) ----------
 const activeTokens = new Set();
 
 function requireAuth(req, res, next) {
@@ -49,14 +52,12 @@ const upload = multer({
   }
 });
 
-// ---------- Middlewares ----------
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ================= مسارات عامة (للعرض) =================
+// ========== مسارات التصاميم ==========
 
-// كل التصاميم المعروضة
 app.get('/api/designs', async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -73,7 +74,6 @@ app.get('/api/designs', async (req, res) => {
   }
 });
 
-// تصميم واحد بالتفصيل
 app.get('/api/designs/:id', async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -89,38 +89,22 @@ app.get('/api/designs/:id', async (req, res) => {
   }
 });
 
-// ================= تسجيل الدخول للأدمن (من Supabase) =================
+// ========== تسجيل الدخول (من .env) ==========
 
-app.post('/api/admin/login', async (req, res) => {
+app.post('/api/admin/login', (req, res) => {
   const { username, password } = req.body || {};
   
-  // لو مش مدخل حاجة
-  if (!username || !password) {
-    return res.status(401).json({ error: 'اسم المستخدم أو كلمة السر غلط' });
-  }
-
-  try {
-    // 🔍 البحث عن الأدمن في Supabase
-    const { data, error } = await supabase
-      .from('admins')
-      .select('*')
-      .eq('username', username)
-      .single();
-
-    // لو مش موجود أو كلمة السر غلط
-    if (error || !data || data.password !== password) {
-      return res.status(401).json({ error: 'اسم المستخدم أو كلمة السر غلط' });
-    }
-
-    // ✅ تسجيل الدخول ناجح
+  console.log('📝 محاولة دخول:', username);
+  console.log('🔑 المطلوب:', ADMIN_USERNAME, ADMIN_PASSWORD);
+  
+  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
     const token = crypto.randomBytes(24).toString('hex');
     activeTokens.add(token);
-    return res.json({ token, adminId: data.id });
-
-  } catch (err) {
-    console.error('Login error:', err);
-    return res.status(500).json({ error: 'حصل خطأ في السيرفر' });
+    console.log('✅ تسجيل دخول ناجح');
+    return res.json({ token });
   }
+  console.log('❌ فشل تسجيل الدخول');
+  return res.status(401).json({ error: 'اسم المستخدم أو كلمة السر غلط' });
 });
 
 app.post('/api/admin/logout', requireAuth, (req, res) => {
@@ -131,9 +115,8 @@ app.post('/api/admin/logout', requireAuth, (req, res) => {
 
 app.get('/api/admin/check', requireAuth, (req, res) => res.json({ ok: true }));
 
-// ================= إدارة التصاميم (أدمن فقط) =================
+// ========== باقي مسارات الأدمن ==========
 
-// كل التصاميم (تشمل غير المنشورة) لعرضها في الداش بورد
 app.get('/api/admin/designs', requireAuth, async (req, res) => {
   try {
     const { data, error } = await supabase
@@ -148,7 +131,6 @@ app.get('/api/admin/designs', requireAuth, async (req, res) => {
   }
 });
 
-// إضافة تصميم جديد
 app.post('/api/admin/designs', requireAuth, upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'محتاج صورة للتصميم' });
 
@@ -181,7 +163,6 @@ app.post('/api/admin/designs', requireAuth, upload.single('image'), async (req, 
   }
 });
 
-// تعديل بيانات تصميم
 app.put('/api/admin/designs/:id', requireAuth, async (req, res) => {
   const { title, description, category, tags, published } = req.body;
 
@@ -207,7 +188,6 @@ app.put('/api/admin/designs/:id', requireAuth, async (req, res) => {
   }
 });
 
-// استبدال صورة تصميم موجود
 app.put('/api/admin/designs/:id/image', requireAuth, upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'محتاج صورة' });
 
@@ -236,12 +216,11 @@ app.put('/api/admin/designs/:id/image', requireAuth, upload.single('image'), asy
     if (error) throw error;
     res.json(data);
   } catch (err) {
-    fs.unlinkSync(req.file.path);
+    if (req.file && req.file.path) fs.unlinkSync(req.file.path);
     res.status(500).json({ error: 'فشل استبدال الصورة' });
   }
 });
 
-// حذف تصميم
 app.delete('/api/admin/designs/:id', requireAuth, async (req, res) => {
   try {
     const { data: oldDesign, error: findError } = await supabase
@@ -268,16 +247,17 @@ app.delete('/api/admin/designs/:id', requireAuth, async (req, res) => {
   }
 });
 
-// رفع نقشة/قماش
 app.post('/api/admin/upload-texture', requireAuth, upload.single('texture'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'محتاج صورة نقشة' });
   res.json({ url: '/uploads/' + req.file.filename });
 });
 
-// ================= مسار 404 =================
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
-// ================= Vercel Export =================
-module.exports = app;
+app.listen(PORT, () => {
+  console.log(`🧵 المنصة شغالة على http://localhost:${PORT}`);
+  console.log(`📊 لوحة تحكم الأدمن: http://localhost:${PORT}/admin/login.html`);
+  console.log(`👤 Admin: ${ADMIN_USERNAME} / ${ADMIN_PASSWORD}`);
+});
