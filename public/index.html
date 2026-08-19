@@ -12,7 +12,16 @@
 
 <header class="site-header">
   <div class="header-inner">
-    <div class="brand"><span class="pin"></span> أتيليه</div>
+    <div class="brand">
+      <span class="pin"></span>
+      <span style="display:flex;align-items:center;gap:8px;">
+        <span>أتيليه</span>
+        <a href="https://protofile-sepia.vercel.app/" target="_blank" 
+           style="text-decoration:none;font-family:'Playfair Display',serif;font-weight:700;font-size:0.9rem;color:var(--wine);border-right:1px solid var(--line);padding-right:10px;">
+          M <span style="color:var(--ink);">for</span> MADA
+        </a>
+      </span>
+    </div>
     <nav class="header-nav">
       <a href="/index.html" class="active">المعرض</a>
       <a href="/admin/login.html">لوحة التحكم</a>
@@ -37,7 +46,14 @@
 
 <div id="modalRoot"></div>
 
-<footer class="site-footer">أتيليه — منصة عرض التصاميم</footer>
+<footer class="site-footer">
+  أتيليه — منصة عرض التصاميم
+  <br>
+  <a href="https://protofile-sepia.vercel.app/" target="_blank" 
+     style="color:var(--wine);text-decoration:none;font-family:'Playfair Display',serif;font-weight:700;font-size:0.85rem;">
+    M for MADA
+  </a>
+</footer>
 
 <script src="/js/gallery.js"></script>
 </body>
