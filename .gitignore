@@ -1,0 +1,36 @@
+# مجلدات الاعتماديات
+node_modules/
+
+# ملفات البيئة
+.env
+
+# ملفات البيانات المحلية
+data/*.json
+!data/.gitkeep
+
+# مجلد الرفع (الصور)
+public/uploads/
+!public/uploads/.gitkeep
+
+# ملفات النظام
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ملفات السجلات
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ملفات IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ملفات التشغيل المؤقتة
+dist/
+build/
+.temp/
