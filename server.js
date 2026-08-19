@@ -28,7 +28,6 @@ async function requireAuth(req, res, next) {
     return res.status(401).json({ error: 'غير مصرح لك بالدخول' });
   }
 
-  // 🔍 البحث عن التوكن في Supabase
   const { data, error } = await supabase
     .from('sessions')
     .select('*')
@@ -39,7 +38,6 @@ async function requireAuth(req, res, next) {
     return res.status(401).json({ error: 'جلسة غير صالحة' });
   }
 
-  // ✅ التوكن صحيح
   req.adminId = data.admin_id;
   next();
 }
@@ -109,7 +107,6 @@ app.post('/api/admin/login', async (req, res) => {
   }
 
   try {
-    // 🔍 البحث عن الأدمن في Supabase
     const { data: admin, error } = await supabase
       .from('admins')
       .select('*')
@@ -121,10 +118,8 @@ app.post('/api/admin/login', async (req, res) => {
       return res.status(401).json({ error: 'اسم المستخدم أو كلمة السر غلط' });
     }
 
-    // ✅ إنشاء توكن جديد
     const token = crypto.randomBytes(24).toString('hex');
 
-    // 💾 حفظ التوكن في Supabase
     const { error: sessionError } = await supabase
       .from('sessions')
       .insert([{ token, admin_id: admin.id }]);
@@ -143,19 +138,13 @@ app.post('/api/admin/login', async (req, res) => {
   }
 });
 
-// ================= تسجيل الخروج =================
-
 app.post('/api/admin/logout', requireAuth, async (req, res) => {
   const authHeader = req.headers.authorization || '';
   const token = authHeader.replace('Bearer ', '').trim();
 
-  // حذف التوكن من Supabase
   await supabase.from('sessions').delete().eq('token', token);
-
   res.json({ ok: true });
 });
-
-// ================= التحقق من التوكن =================
 
 app.get('/api/admin/check', requireAuth, (req, res) => res.json({ ok: true }));
 
@@ -300,6 +289,12 @@ app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`🧵 المنصة شغالة على http://localhost:${PORT}`);
-});
+// ========== مهم جداً لـ Vercel ==========
+module.exports = app;
+
+// ========== للتشغيل المحلي فقط ==========
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🧵 المنصة شغالة على http://localhost:${PORT}`);
+  });
+}
