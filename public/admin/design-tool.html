@@ -3,17 +3,277 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أداة التصميم — أتيليه</title>
+<title>أداة التصميم المتطورة — أتيليه</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css">
+<style>
+  /* =============================================
+     DESIGN TOOL - ENHANCED VERSION
+     ============================================= */
+  
+  .tool-wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px 24px 90px;
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 30px;
+  }
+
+  @media (max-width: 1024px) {
+    .tool-wrap {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ===== لوحة التحكم ===== */
+  .panel {
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+
+  .panel::-webkit-scrollbar {
+    width: 4px;
+  }
+  .panel::-webkit-scrollbar-thumb {
+    background: var(--wine);
+    border-radius: 2px;
+  }
+
+  .panel h2 {
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+  .panel .sub {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+  }
+
+  .control-group {
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .control-group:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .control-group label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  .control-group select,
+  .control-group input[type="text"],
+  .control-group input[type="file"] {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--line-strong);
+    background: var(--muslin);
+    font-family: inherit;
+    font-size: 0.85rem;
+    border-radius: 2px;
+    transition: border-color 0.3s;
+  }
+  .control-group select:focus,
+  .control-group input[type="text"]:focus {
+    outline: none;
+    border-color: var(--wine);
+  }
+
+  .control-group input[type="color"] {
+    width: 44px;
+    height: 34px;
+    border: 1px solid var(--line-strong);
+    padding: 2px;
+    background: var(--muslin);
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .control-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .control-group input[type="range"] {
+    width: 100%;
+    accent-color: var(--wine);
+    height: 4px;
+    cursor: pointer;
+  }
+
+  /* ===== أنواع القطع ===== */
+  .type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .type-chip {
+    padding: 8px 4px;
+    text-align: center;
+    font-size: 0.7rem;
+    border: 1px solid var(--line-strong);
+    background: var(--muslin);
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s;
+    font-weight: 500;
+  }
+  .type-chip:hover {
+    border-color: var(--wine);
+  }
+  .type-chip.active {
+    background: var(--wine);
+    color: var(--surface);
+    border-color: var(--wine);
+    box-shadow: 0 0 20px rgba(166, 61, 64, 0.3);
+  }
+
+  /* ===== منطقة العرض ===== */
+  .stage-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .stage-panel {
+    width: 100%;
+    max-width: 500px;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  #stageSvg {
+    width: 100%;
+    height: auto;
+    max-height: 70vh;
+    touch-action: none;
+    cursor: default;
+    border-radius: 4px;
+  }
+
+  /* ===== دقة العرض ===== */
+  .zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .zoom-controls button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+  }
+  .zoom-controls button:hover {
+    background: var(--wine);
+    color: var(--surface);
+    border-color: var(--wine);
+  }
+  .zoom-controls span {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    min-width: 40px;
+    text-align: center;
+  }
+
+  /* ===== التصدير ===== */
+  .export-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 500px;
+  }
+  .export-row .btn {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  /* ===== Toast ===== */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--surface);
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    z-index: 200;
+    box-shadow: var(--shadow);
+    border-radius: 4px;
+    animation: slideUp 0.3s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateX(-50%) translateY(20px); opacity: 0; }
+    to { transform: translateX(-50%) translateY(0); opacity: 1; }
+  }
+
+  .stage-hint {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    text-align: center;
+    margin: 0;
+  }
+
+  /* ===== حساسية ===== */
+  @media (max-width: 600px) {
+    .tool-wrap {
+      padding: 12px;
+    }
+    .panel {
+      max-height: none;
+      padding: 16px;
+    }
+    .type-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .stage-panel {
+      padding: 12px;
+    }
+  }
+</style>
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-inner">
-    <div class="brand-wrapper">
-      <span class="brand-name"><span class="pin" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--brass);box-shadow:0 0 0 3px rgba(184,146,46,0.18);margin-left:8px;"></span> أتيليه</span>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="brand"><span class="pin"></span> أتيليه</div>
       <a href="https://protofile-sepia.vercel.app/" target="_blank" class="mada-badge">
         <span class="star">✦</span>
         <span class="mada-text">
@@ -31,44 +291,61 @@
   </div>
 </header>
 
-<div class="eyebrow" style="max-width:1180px;margin:22px auto 0;padding:0 24px">استوديو التصميم</div>
-<h1 style="max-width:1180px;margin:4px auto 0;padding:0 24px;font-size:1.9rem">صمّم قطعتك من الصفر</h1>
+<div class="eyebrow" style="max-width:1400px;margin:22px auto 0;padding:0 24px">استوديو التصميم المتقدم</div>
+<h1 style="max-width:1400px;margin:4px auto 0;padding:0 24px;font-size:1.8rem">صمّم قطعتك بدقة احترافية</h1>
 
 <div class="tool-wrap">
 
   <!-- لوحة التحكم -->
-  <aside class="panel swatch-card">
-    <h2>نوع القطعة</h2>
-    <p class="sub">اختار الشكل الأساسي اللي هتبني عليه</p>
+  <aside class="panel" id="controlPanel">
+
+    <!-- نوع القطعة -->
+    <h2>🧵 نوع القطعة</h2>
+    <p class="sub">اختر الشكل الأساسي</p>
     <div class="control-group">
       <div class="type-grid" id="garmentTypeGrid"></div>
     </div>
 
-    <h2>الألوان والقماش</h2>
-    <p class="sub">لوّن القطعة أو حطّ نقشة قماش عليها</p>
+    <!-- الألوان -->
+    <h2>🎨 الألوان</h2>
+    <p class="sub">لوّن القطعة بدقة</p>
     <div class="control-group">
       <label for="baseColor">اللون الأساسي</label>
       <div class="control-row">
         <input type="color" id="baseColor" value="#A63D40">
-        <input type="text" id="baseColorHex" value="#A63D40" style="max-width:110px" readonly>
+        <input type="text" id="baseColorHex" value="#A63D40" style="max-width:100px;font-size:0.8rem" readonly>
+        <span style="font-size:0.7rem;color:var(--ink-soft)">اختر لوناً</span>
       </div>
     </div>
+
     <div class="control-group">
-      <label for="fabricUpload">نقشة / قماش (اختياري)</label>
+      <label for="accentColor">اللون الثانوي (التفاصيل)</label>
+      <div class="control-row">
+        <input type="color" id="accentColor" value="#B8922E">
+        <input type="text" id="accentColorHex" value="#B8922E" style="max-width:100px;font-size:0.8rem" readonly>
+      </div>
+    </div>
+
+    <!-- القماش والنقشة -->
+    <h2>🧶 القماش والنقشة</h2>
+    <p class="sub">أضف نقشة قماش واقعية</p>
+    <div class="control-group">
+      <label for="fabricUpload">رفع نقشة قماش</label>
       <input type="file" id="fabricUpload" accept="image/*">
-      <div style="margin-top:10px">
-        <label for="fabricOpacity">شفافية النقشة</label>
+      <div style="margin-top:8px">
+        <label for="fabricOpacity">الشفافية: <span id="opacityValue">70</span>%</label>
         <input type="range" id="fabricOpacity" min="0" max="100" value="70">
       </div>
       <button class="btn ghost small" id="clearFabric" style="margin-top:8px">إزالة النقشة</button>
     </div>
 
-    <h2>الشعار / النص</h2>
-    <p class="sub">ضيف اسم الماركة أو أي نص على القطعة، واسحبه لمكانه</p>
+    <!-- النص -->
+    <h2>✏️ النص والشعار</h2>
+    <p class="sub">أضف نصاً واسحبه للمكان المناسب</p>
     <div class="control-group">
       <label for="logoText">النص</label>
-      <input type="text" id="logoText" placeholder="مثال: ATELIER">
-      <div class="control-row" style="margin-top:10px">
+      <input type="text" id="logoText" placeholder="مثال: ATELIER" value="M for MADA">
+      <div class="control-row" style="margin-top:8px">
         <select id="logoFont" style="flex:2">
           <option value="'Playfair Display', serif">Playfair — أنيق</option>
           <option value="'Inter', sans-serif">Inter — بسيط</option>
@@ -77,42 +354,88 @@
         </select>
         <input type="color" id="logoColor" value="#211C16">
       </div>
-      <div style="margin-top:10px">
-        <label for="logoSize">حجم الخط</label>
+      <div style="margin-top:8px">
+        <label for="logoSize">حجم الخط: <span id="logoSizeValue">20</span>px</label>
         <input type="range" id="logoSize" min="10" max="48" value="20">
       </div>
     </div>
 
+    <!-- التحكم الدقيق -->
+    <h2>⚙️ تحكم دقيق</h2>
+    <p class="sub">ضبط احترافي للقطعة</p>
     <div class="control-group">
-      <button class="btn ghost small" id="resetDesign">إعادة الضبط بالكامل</button>
+      <label for="strokeWidth">سمك الحواف: <span id="strokeWidthValue">2.5</span>px</label>
+      <input type="range" id="strokeWidth" min="1" max="6" step="0.5" value="2.5">
+    </div>
+    <div class="control-group">
+      <label for="detailLevel">مستوى التفاصيل: <span id="detailLevelValue">وسط</span></label>
+      <input type="range" id="detailLevel" min="0" max="2" step="1" value="1">
+    </div>
+
+    <div class="control-group">
+      <button class="btn ghost small" id="resetDesign">🔄 إعادة الضبط بالكامل</button>
     </div>
   </aside>
 
   <!-- منطقة العرض -->
   <section class="stage-area">
-    <div class="stage-panel swatch-card">
-      <svg id="stageSvg" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+    <div class="stage-panel">
+      <svg id="stageSvg" viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <pattern id="fabricPattern" patternUnits="userSpaceOnUse" width="400" height="600">
-            <image id="fabricImage" href="" x="0" y="0" width="400" height="600" preserveAspectRatio="xMidYMid slice" opacity="0.7"/>
+          <pattern id="fabricPattern" patternUnits="userSpaceOnUse" width="500" height="700">
+            <image id="fabricImage" href="" x="0" y="0" width="500" height="700" preserveAspectRatio="xMidYMid slice" opacity="0.7"/>
           </pattern>
+          <filter id="shadowFilter">
+            <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+          </filter>
         </defs>
-        <path id="garmentPath" fill="#A63D40" stroke="#211C16" stroke-width="2.5" stroke-linejoin="round"/>
-        <line id="centerSeam" stroke="#211C16" stroke-width="1" stroke-dasharray="4 4" opacity="0" />
-        <text id="logoNode" x="200" y="200" text-anchor="middle" font-size="20" fill="#211C16" style="cursor:move;user-select:none" font-family="'Playfair Display', serif"></text>
+        <!-- الخلفية -->
+        <rect width="500" height="700" fill="rgba(237,231,221,0.3)" rx="8"/>
+        
+        <!-- القطعة الرئيسية -->
+        <path id="garmentPath" fill="#A63D40" stroke="#211C16" stroke-width="2.5" stroke-linejoin="round" filter="url(#shadowFilter)"/>
+        
+        <!-- خط الوسط (للتفاصيل) -->
+        <line id="centerSeam" stroke="#211C16" stroke-width="1" stroke-dasharray="6 6" opacity="0"/>
+        
+        <!-- تفاصيل إضافية (جيوب، أزرار، ياقات) -->
+        <g id="detailsGroup" opacity="0">
+          <!-- جيوب -->
+          <rect id="pocketLeft" x="100" y="420" width="50" height="40" rx="4" fill="none" stroke="#211C16" stroke-width="1.5" opacity="0"/>
+          <rect id="pocketRight" x="350" y="420" width="50" height="40" rx="4" fill="none" stroke="#211C16" stroke-width="1.5" opacity="0"/>
+          <!-- أزرار -->
+          <circle id="button1" cx="250" cy="300" r="5" fill="#B8922E" opacity="0"/>
+          <circle id="button2" cx="250" cy="340" r="5" fill="#B8922E" opacity="0"/>
+          <circle id="button3" cx="250" cy="380" r="5" fill="#B8922E" opacity="0"/>
+        </g>
+        
+        <!-- النص -->
+        <text id="logoNode" x="250" y="220" text-anchor="middle" font-size="22" fill="#211C16" 
+              style="cursor:move;user-select:none;font-weight:700;letter-spacing:2px" 
+              font-family="'Playfair Display', serif"></text>
+        
+        <!-- إرشادات -->
+        <text x="250" y="680" text-anchor="middle" font-size="11" fill="#6b6357" font-family="'Inter', sans-serif" opacity="0.5">اسحب النص لتحديد موضعه</text>
       </svg>
     </div>
-    <p class="stage-hint">اسحب النص بإصبعك أو الماوس عشان تحدد مكانه على القطعة</p>
+
+    <p class="stage-hint">🔍 استخدم الماوس لسحب النص • زرّ لتكبير العرض</p>
+
+    <div class="zoom-controls">
+      <button id="zoomOut">−</button>
+      <span id="zoomLevel">100%</span>
+      <button id="zoomIn">+</button>
+      <button id="resetZoom" style="font-size:0.7rem;padding:4px 12px;border:1px solid var(--line-strong);background:var(--surface);border-radius:4px;cursor:pointer;">↺</button>
+    </div>
 
     <div class="export-row">
-      <button class="btn ghost" id="downloadBtn">تحميل PNG</button>
-      <button class="btn wine" id="saveGalleryBtn">حفظ في المعرض</button>
+      <button class="btn ghost" id="downloadBtn">📥 تحميل PNG</button>
+      <button class="btn wine" id="saveGalleryBtn">💾 حفظ في المعرض</button>
     </div>
   </section>
 
 </div>
 
-<div id="saveFormRoot"></div>
 <div id="toastRoot"></div>
 
 <script src="/admin/js/auth.js"></script>
