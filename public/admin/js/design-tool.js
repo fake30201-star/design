@@ -399,4 +399,75 @@ function initDesignTool() {
       canvas.width = 500;
       canvas.height = 700;
       const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#
+      ctx.fillStyle = '#EDE7DD';
+      ctx.fillRect(0, 0, 500, 700);
+      ctx.drawImage(img, 0, 0);
+      const link = document.createElement('a');
+      link.download = 'design.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      URL.revokeObjectURL(url);
+      showToast('📥 تم تحميل التصميم');
+    };
+    img.src = url;
+  });
+
+  // =============================================
+  // 13. حفظ في المعرض
+  // =============================================
+  
+  document.getElementById('saveGalleryBtn').addEventListener('click', function() {
+    const serializer = new XMLSerializer();
+    let source = serializer.serializeToString(svg);
+    const svgBlob = new Blob([source], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(svgBlob);
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 500;
+      canvas.height = 700;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#EDE7DD';
+      ctx.fillRect(0, 0, 500, 700);
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(async function(blob) {
+        const formData = new FormData();
+        formData.append('image', blob, 'design.png');
+        formData.append('title', logoText.value || 'تصميم جديد');
+        formData.append('category', activeType);
+        formData.append('tags', 'مصمم بالأداة المتطورة');
+        formData.append('description', `تصميم ${activeType} تم إنشاؤه باستخدام أداة التصميم المتطورة`);
+        
+        try {
+          const res = await authFetch('/api/admin/designs', {
+            method: 'POST',
+            body: formData
+          });
+          if (res.ok) {
+            showToast('💾 تم حفظ التصميم في المعرض! 🎉');
+          } else {
+            showToast('❌ حصل خطأ أثناء الحفظ');
+          }
+        } catch (err) {
+          showToast('❌ حصل خطأ، جرب تاني');
+        }
+      }, 'image/png');
+      URL.revokeObjectURL(url);
+    };
+    img.src = url;
+  });
+
+  // =============================================
+  // 14. Toast
+  // =============================================
+  
+  function showToast(msg) {
+    const root = document.getElementById('toastRoot');
+    root.innerHTML = `<div class="toast">${msg}</div>`;
+    setTimeout(() => { root.innerHTML = ''; }, 2600);
+  }
+
+  // التحديث الأولي
+  updateGarment();
+  updateZoom();
+}
