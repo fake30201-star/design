@@ -632,3 +632,47 @@ a { color: inherit; }
   .admin-actions { flex-direction: column; }
   .admin-actions .btn { width: 100%; justify-content: center; }
 }
+
+
+
+
+
+
+/* =============================================
+   PART 13: BRAND LOGO
+   ============================================= */
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.brand-link .brand-name {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.brand-link .brand-logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--wine);
+  border-right: 1px solid var(--line);
+  padding-right: 10px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.brand-link .brand-logo:hover {
+  color: var(--ink);
+}
+
+.brand-link .brand-logo .highlight {
+  color: var(--ink);
+}
+
+.brand-link .brand-logo:hover .highlight {
+  color: var(--wine);
+}
