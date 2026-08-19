@@ -13,12 +13,9 @@
 <header class="site-header">
   <div class="header-inner">
     <div style="display:flex;align-items:center;gap:12px;">
-      <!-- أتيليه -->
       <div class="brand">
         <span class="pin"></span> أتيليه
       </div>
-      
-      <!-- M for MADA (جنب أتيليه) -->
       <a href="https://protofile-sepia.vercel.app/" target="_blank" class="mada-badge">
         <span class="star">✦</span>
         <span class="mada-text">
@@ -27,7 +24,6 @@
         <span class="star">✦</span>
       </a>
     </div>
-    
     <nav class="header-nav">
       <a href="/index.html" class="active">المعرض</a>
       <a href="/admin/login.html">لوحة التحكم</a>
@@ -53,12 +49,16 @@
 <div id="modalRoot"></div>
 
 <footer class="site-footer">
-  <span>أتيليه — منصة عرض التصاميم</span>
-  <br>
-  <a href="https://protofile-sepia.vercel.app/" target="_blank" 
-     style="display:inline-block;margin-top:6px;padding:4px 16px;background:linear-gradient(135deg,#4c1d95,#2e1065);border:1.5px solid rgba(139,92,246,0.4);border-radius:999px;color:#C4B5FD;text-decoration:none;font-family:'Playfair Display',serif;font-weight:700;font-size:0.8rem;box-shadow:0 0 20px rgba(76,29,149,0.3);transition:all 0.3s ease;">
-    ✦ M for MADA ✦
-  </a>
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;">
+    <span>أتيليه — منصة عرض التصاميم</span>
+    <span style="color:var(--line-strong);">|</span>
+    <a href="https://protofile-sepia.vercel.app/" target="_blank" 
+       style="display:inline-flex;align-items:center;gap:6px;padding:4px 14px;background:linear-gradient(135deg,#4c1d95,#2e1065);border:1.5px solid rgba(139,92,246,0.4);border-radius:999px;color:#C4B5FD;text-decoration:none;font-family:'Playfair Display',serif;font-weight:700;font-size:0.8rem;box-shadow:0 0 20px rgba(76,29,149,0.3);transition:all 0.3s ease;">
+      <span style="color:#A78BFA;font-size:0.6rem;">✦</span>
+      M <span style="color:#A78BFA;font-weight:400;">for</span> MADA
+      <span style="color:#A78BFA;font-size:0.6rem;">✦</span>
+    </a>
+  </div>
 </footer>
 
 <script src="/js/gallery.js"></script>
