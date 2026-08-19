@@ -19,15 +19,29 @@ const supabase = createClient(
 const UPLOADS_DIR = path.join(__dirname, 'public', 'uploads');
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
-const activeTokens = new Set();
-
-function requireAuth(req, res, next) {
+// ========== Middleware التحقق ==========
+async function requireAuth(req, res, next) {
   const authHeader = req.headers.authorization || '';
   const token = authHeader.replace('Bearer ', '').trim();
-  if (token && activeTokens.has(token)) {
-    return next();
+  
+  if (!token) {
+    return res.status(401).json({ error: 'غير مصرح لك بالدخول' });
   }
-  return res.status(401).json({ error: 'غير مصرح لك بالدخول، سجل دخولك الأول' });
+
+  // 🔍 البحث عن التوكن في Supabase
+  const { data, error } = await supabase
+    .from('sessions')
+    .select('*')
+    .eq('token', token)
+    .single();
+
+  if (error || !data) {
+    return res.status(401).json({ error: 'جلسة غير صالحة' });
+  }
+
+  // ✅ التوكن صحيح
+  req.adminId = data.admin_id;
+  next();
 }
 
 // ---------- إعدادات رفع الملفات ----------
@@ -85,7 +99,7 @@ app.get('/api/designs/:id', async (req, res) => {
   }
 });
 
-// ================= تسجيل الدخول (من Supabase) =================
+// ================= تسجيل الدخول =================
 
 app.post('/api/admin/login', async (req, res) => {
   const { username, password } = req.body || {};
@@ -96,23 +110,32 @@ app.post('/api/admin/login', async (req, res) => {
 
   try {
     // 🔍 البحث عن الأدمن في Supabase
-    const { data, error } = await supabase
+    const { data: admin, error } = await supabase
       .from('admins')
       .select('*')
       .eq('username', username)
       .single();
 
-    // لو مش موجود أو كلمة السر غلط
-    if (error || !data || data.password !== password) {
+    if (error || !admin || admin.password !== password) {
       console.log('❌ فشل الدخول:', username);
       return res.status(401).json({ error: 'اسم المستخدم أو كلمة السر غلط' });
     }
 
-    // ✅ تسجيل الدخول ناجح
+    // ✅ إنشاء توكن جديد
     const token = crypto.randomBytes(24).toString('hex');
-    activeTokens.add(token);
+
+    // 💾 حفظ التوكن في Supabase
+    const { error: sessionError } = await supabase
+      .from('sessions')
+      .insert([{ token, admin_id: admin.id }]);
+
+    if (sessionError) {
+      console.error('❌ خطأ في حفظ الجلسة:', sessionError);
+      return res.status(500).json({ error: 'حصل خطأ في السيرفر' });
+    }
+
     console.log('✅ دخول ناجح:', username);
-    return res.json({ token, adminId: data.id });
+    return res.json({ token });
 
   } catch (err) {
     console.error('Login error:', err);
@@ -120,15 +143,23 @@ app.post('/api/admin/login', async (req, res) => {
   }
 });
 
-app.post('/api/admin/logout', requireAuth, (req, res) => {
-  const token = (req.headers.authorization || '').replace('Bearer ', '').trim();
-  activeTokens.delete(token);
+// ================= تسجيل الخروج =================
+
+app.post('/api/admin/logout', requireAuth, async (req, res) => {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.replace('Bearer ', '').trim();
+
+  // حذف التوكن من Supabase
+  await supabase.from('sessions').delete().eq('token', token);
+
   res.json({ ok: true });
 });
 
+// ================= التحقق من التوكن =================
+
 app.get('/api/admin/check', requireAuth, (req, res) => res.json({ ok: true }));
 
-// ================= إدارة التصاميم (بحماية) =================
+// ================= إدارة التصاميم =================
 
 app.get('/api/admin/designs', requireAuth, async (req, res) => {
   try {
@@ -271,5 +302,4 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
   console.log(`🧵 المنصة شغالة على http://localhost:${PORT}`);
-  console.log(`📊 لوحة التحكم: http://localhost:${PORT}/admin/login.html`);
 });
