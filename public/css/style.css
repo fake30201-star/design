@@ -845,3 +845,570 @@ a { color: inherit; }
     font-size: 0.75rem;
   }
 }
+
+
+
+/* =============================================
+   RESPONSIVE - توافق جميع الأجهزة
+   ============================================= */
+
+/* ===== أجهزة التابلت والشاشات المتوسطة ===== */
+@media (max-width: 1024px) {
+  .header-inner {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .admin-wrap {
+    padding: 20px 16px 60px;
+  }
+
+  .admin-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .admin-actions {
+    flex-direction: column;
+  }
+
+  .admin-actions .btn,
+  .admin-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .stats-row {
+    gap: 10px;
+  }
+
+  .stat-pill {
+    min-width: 100px;
+    padding: 10px 14px;
+  }
+
+  .stat-pill .num {
+    font-size: 1.3rem;
+  }
+
+  .admin-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
+  }
+}
+
+/* ===== الأجهزة اللوحية (iPad) ===== */
+@media (max-width: 768px) {
+  .header-inner {
+    padding: 12px 16px;
+  }
+
+  .brand {
+    font-size: 1.1rem;
+  }
+
+  .mada-badge {
+    padding: 4px 12px;
+  }
+
+  .mada-badge .mada-text {
+    font-size: 0.7rem;
+  }
+
+  .mada-badge .star {
+    font-size: 0.6rem;
+  }
+
+  .header-nav {
+    gap: 14px;
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero {
+    padding: 40px 16px 20px;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+    max-width: 100%;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+  }
+
+  .gallery-wrap {
+    padding: 16px 16px 60px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+  }
+
+  .filter-chip {
+    font-size: 0.65rem;
+    padding: 5px 12px;
+  }
+
+  .design-card .info {
+    padding: 10px 12px 14px;
+  }
+
+  .design-card h3 {
+    font-size: 0.9rem;
+  }
+
+  .design-card .desc {
+    font-size: 0.78rem;
+  }
+
+  .modal-box {
+    grid-template-columns: 1fr;
+    max-height: 95vh;
+  }
+
+  .modal-body {
+    padding: 20px;
+  }
+
+  .modal-body h2 {
+    font-size: 1.2rem;
+  }
+
+  .admin-wrap {
+    padding: 16px 12px 40px;
+  }
+
+  .admin-top h1 {
+    font-size: 1.4rem;
+  }
+
+  .admin-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .admin-card h3 {
+    font-size: 0.85rem;
+  }
+
+  .admin-card .row-actions {
+    flex-direction: column;
+  }
+
+  .admin-card .row-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .badge {
+    font-size: 0.55rem;
+    padding: 2px 8px;
+    top: 8px;
+    left: 8px;
+  }
+
+  .form-box {
+    padding: 20px;
+    max-width: 95%;
+  }
+
+  .form-box h2 {
+    font-size: 1.1rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .site-footer {
+    padding: 16px;
+    font-size: 0.75rem;
+  }
+
+  .site-footer > div {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .site-footer > div .footer-divider {
+    display: none;
+  }
+
+  .toast {
+    font-size: 0.75rem;
+    padding: 10px 16px;
+    bottom: 16px;
+    max-width: 90%;
+  }
+}
+
+/* ===== الهواتف الذكية (Mobile) ===== */
+@media (max-width: 480px) {
+  .header-inner {
+    padding: 10px 12px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .brand {
+    font-size: 1rem;
+  }
+
+  .brand .pin {
+    width: 8px;
+    height: 8px;
+  }
+
+  .mada-badge {
+    padding: 3px 10px;
+    gap: 4px;
+  }
+
+  .mada-badge .mada-text {
+    font-size: 0.6rem;
+  }
+
+  .mada-badge .star {
+    font-size: 0.5rem;
+  }
+
+  .header-nav {
+    gap: 10px;
+    font-size: 0.7rem;
+  }
+
+  .header-nav a {
+    padding-bottom: 0;
+  }
+
+  .hero {
+    padding: 30px 12px 16px;
+  }
+
+  .hero h1 {
+    font-size: 1.4rem;
+  }
+
+  .hero p {
+    font-size: 0.8rem;
+  }
+
+  .eyebrow {
+    font-size: 0.6rem;
+  }
+  .eyebrow::before {
+    width: 12px;
+  }
+
+  .gallery-wrap {
+    padding: 12px 12px 40px;
+  }
+
+  .filters {
+    gap: 6px;
+    margin: 12px 0 18px;
+  }
+
+  .filter-chip {
+    font-size: 0.6rem;
+    padding: 4px 10px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .design-card .info {
+    padding: 8px 10px 12px;
+  }
+
+  .design-card h3 {
+    font-size: 0.8rem;
+    margin: 0.15em 0;
+  }
+
+  .design-card .desc {
+    font-size: 0.7rem;
+  }
+
+  .design-card .cat {
+    font-size: 0.55rem;
+  }
+
+  .tag {
+    font-size: 0.55rem;
+    padding: 2px 6px;
+  }
+
+  .modal-box {
+    max-height: 98vh;
+    border-radius: 0;
+  }
+
+  .modal-body {
+    padding: 16px;
+  }
+
+  .modal-body h2 {
+    font-size: 1rem;
+  }
+
+  .modal-body p {
+    font-size: 0.8rem;
+  }
+
+  .modal-close {
+    top: 10px;
+    left: 10px;
+    font-size: 1rem;
+  }
+
+  /* ===== Admin ===== */
+  .admin-wrap {
+    padding: 12px 10px 30px;
+  }
+
+  .admin-top h1 {
+    font-size: 1.2rem;
+  }
+
+  .stats-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .stat-pill {
+    min-width: unset;
+    padding: 10px 14px;
+  }
+
+  .stat-pill .num {
+    font-size: 1.1rem;
+  }
+
+  .stat-pill .lbl {
+    font-size: 0.6rem;
+  }
+
+  .admin-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .admin-card .info {
+    padding: 8px 10px 12px;
+  }
+
+  .admin-card h3 {
+    font-size: 0.75rem;
+  }
+
+  .admin-card .cat {
+    font-size: 0.55rem;
+  }
+
+  .admin-card .row-actions .btn {
+    font-size: 0.6rem;
+    padding: 4px 8px;
+  }
+
+  .badge {
+    font-size: 0.5rem;
+    padding: 2px 6px;
+    top: 6px;
+    left: 6px;
+  }
+
+  .form-box {
+    padding: 16px;
+    max-width: 98%;
+    max-height: 95vh;
+  }
+
+  .form-box h2 {
+    font-size: 1rem;
+  }
+
+  .f-field input,
+  .f-field select,
+  .f-field textarea {
+    font-size: 0.8rem;
+    padding: 7px 9px;
+  }
+
+  .form-actions .btn {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+
+  /* ===== Login ===== */
+  .login-card {
+    padding: 24px 20px;
+    max-width: 340px;
+  }
+
+  .login-card h1 {
+    font-size: 1.2rem;
+  }
+
+  .login-card p {
+    font-size: 0.8rem;
+  }
+
+  .field input {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+
+  .login-card .btn {
+    font-size: 0.85rem;
+    padding: 10px;
+  }
+
+  /* ===== Footer ===== */
+  .site-footer {
+    padding: 14px 12px;
+    font-size: 0.7rem;
+  }
+
+  .site-footer a {
+    font-size: 0.7rem !important;
+    padding: 3px 10px !important;
+  }
+
+  .toast {
+    font-size: 0.7rem;
+    padding: 8px 14px;
+    bottom: 12px;
+    max-width: 95%;
+  }
+
+  /* ===== Empty State ===== */
+  .empty-state {
+    padding: 40px 16px;
+  }
+  .empty-state .mark {
+    font-size: 1.8rem;
+  }
+  .empty-state p {
+    font-size: 0.8rem;
+  }
+}
+
+/* ===== هواتف صغيرة جداً (أقل من 360px) ===== */
+@media (max-width: 360px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .admin-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .brand {
+    font-size: 0.9rem;
+  }
+
+  .mada-badge .mada-text {
+    font-size: 0.55rem;
+  }
+
+  .header-nav {
+    gap: 8px;
+    font-size: 0.65rem;
+  }
+
+  .filter-chip {
+    font-size: 0.55rem;
+    padding: 3px 8px;
+  }
+
+  .design-card h3 {
+    font-size: 0.7rem;
+  }
+
+  .admin-card h3 {
+    font-size: 0.7rem;
+  }
+
+  .btn {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+  }
+
+  .btn.small {
+    font-size: 0.6rem;
+    padding: 4px 8px;
+  }
+}
+
+
+
+
+/* =============================================
+   تحسينات إضافية للـ Responsive
+   ============================================= */
+
+/* تحسين عرض البطاقات */
+.design-card .thumb {
+  aspect-ratio: 3/4;
+  width: 100%;
+  object-fit: cover;
+}
+
+.admin-card .thumb {
+  aspect-ratio: 3/4;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* تحسين العرض على الشاشات الأفقية */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    padding: 20px 16px 10px;
+  }
+  .hero h1 {
+    font-size: 1.4rem;
+  }
+  .gallery-wrap {
+    padding: 10px 16px 30px;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+}
+
+/* منع التمرير الجانبي */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+* {
+  max-width: 100%;
+  box-sizing: border-box;
+}
