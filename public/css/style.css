@@ -691,138 +691,95 @@ a { color: inherit; }
   position: relative;
 }
 
-/* النص الرئيسي M for MADA */
-.brand-wrapper .brand-logo {
+/* =============================================
+   PART 13: M for MADA BADGE
+   ============================================= */
+
+/* الحاوية الرئيسية للشعار + البادج */
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* المسافة بين أتيليه والبادج */
+  text-decoration: none;
+}
+
+/* اسم أتيليه */
+.brand-wrapper .brand-name {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
-  font-size: 0.95rem;
-  color: #A78BFA;
-  padding-right: 12px;
-  border-right: 1.5px solid rgba(139, 92, 246, 0.4);
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+
+/* البادج المنفصل */
+.brand-wrapper .mada-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background: linear-gradient(135deg, #4c1d95, #2e1065);
+  border: 1.5px solid rgba(139, 92, 246, 0.4);
+  border-radius: 999px;
+  box-shadow: 
+    0 0 20px rgba(76, 29, 149, 0.3),
+    inset 0 0 20px rgba(139, 92, 246, 0.05);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
   position: relative;
+}
+
+/* تأثير هوفر */
+.brand-wrapper .mada-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 0 30px rgba(76, 29, 149, 0.5),
+    0 0 60px rgba(76, 29, 149, 0.2),
+    inset 0 0 30px rgba(139, 92, 246, 0.1);
+  border-color: rgba(139, 92, 246, 0.7);
+}
+
+/* النجوم */
+.brand-wrapper .mada-badge .star {
+  color: #A78BFA;
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+/* النص M for MADA */
+.brand-wrapper .mada-badge .mada-text {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #C4B5FD;
   letter-spacing: 0.5px;
 }
 
-.brand-wrapper .brand-logo .highlight {
-  color: #C4B5FD;
-  transition: all 0.3s ease;
+.brand-wrapper .mada-badge .mada-text .highlight {
+  color: #A78BFA;
+  font-weight: 400;
 }
 
-.brand-wrapper:hover .brand-logo .highlight {
-  color: #8B5CF6;
-  text-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
-}
-
-.brand-wrapper .brand-logo .letter-m {
+.brand-wrapper .mada-badge .mada-text .letter-m {
   color: #8B5CF6;
   font-size: 1.1em;
-  text-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-  transition: all 0.3s ease;
-}
-
-.brand-wrapper:hover .brand-logo .letter-m {
-  text-shadow: 
-    0 0 30px rgba(139, 92, 246, 0.8),
-    0 0 60px rgba(139, 92, 246, 0.4);
-  animation: neonGlow 1.5s ease-in-out infinite;
-}
-
-/* أيقونة السهم الجانبية */
-.brand-wrapper .arrow-icon {
-  color: #6C2BD9;
-  font-size: 0.8rem;
-  transition: all 0.3s ease;
-  opacity: 0.6;
-}
-
-.brand-wrapper:hover .arrow-icon {
-  opacity: 1;
-  transform: translateX(-3px);
-  color: #8B5CF6;
-  text-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-}
-
-/* =============================================
-   ANIMATIONS
-   ============================================= */
-
-/* نبض النيون للدبوس */
-@keyframes neonPulse {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(139, 92, 246, 0.6), 0 0 20px rgba(139, 92, 246, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(139, 92, 246, 0.9), 0 0 40px rgba(139, 92, 246, 0.5), 0 0 60px rgba(139, 92, 246, 0.2);
-  }
-}
-
-/* توهج النيون لـ M */
-@keyframes neonGlow {
-  0%, 100% {
-    text-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-  }
-  50% {
-    text-shadow: 
-      0 0 30px rgba(139, 92, 246, 0.8),
-      0 0 60px rgba(139, 92, 246, 0.4),
-      0 0 80px rgba(139, 92, 246, 0.2);
-  }
-}
-
-/* خطوط خلفية متحركة (اختياري) */
-.brand-wrapper::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: 12px;
-  padding: 2px;
-  background: linear-gradient(
-    135deg,
-    rgba(139, 92, 246, 0.3),
-    rgba(108, 43, 217, 0.1),
-    rgba(139, 92, 246, 0.3)
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0.5;
-  transition: opacity 0.4s ease;
-}
-
-.brand-wrapper:hover::before {
-  opacity: 1;
-  background: linear-gradient(
-    135deg,
-    #8B5CF6,
-    #6C2BD9,
-    #8B5CF6,
-    #6C2BD9
-  );
-  background-size: 300% 300%;
-  animation: borderGlow 3s ease-in-out infinite;
-}
-
-@keyframes borderGlow {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  text-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
 }
 
 /* =============================================
    RESPONSIVE
    ============================================= */
-@media (max-width: 720px) {
-  .brand-wrapper {
-    padding: 4px 12px 4px 8px;
-    gap: 8px;
-  }
+@media (max-width: 600px) {
   .brand-wrapper .brand-name {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
-  .brand-wrapper .brand-logo {
-    font-size: 0.75rem;
-    padding-right: 8px;
+  .brand-wrapper .mada-badge {
+    padding: 4px 10px;
+  }
+  .brand-wrapper .mada-badge .mada-text {
+    font-size: 0.7rem;
+  }
+  .brand-wrapper .mada-badge .star {
+    font-size: 0.6rem;
   }
 }
