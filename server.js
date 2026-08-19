@@ -10,10 +10,6 @@ const { createClient } = require('@supabase/supabase-js');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ========== من .env ==========
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'atelier2026';
-
 // ========== Supabase ==========
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -56,7 +52,7 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ========== مسارات التصاميم ==========
+// ================= مسارات التصاميم =================
 
 app.get('/api/designs', async (req, res) => {
   try {
@@ -89,22 +85,39 @@ app.get('/api/designs/:id', async (req, res) => {
   }
 });
 
-// ========== تسجيل الدخول (من .env) ==========
+// ================= تسجيل الدخول (من Supabase) =================
 
-app.post('/api/admin/login', (req, res) => {
+app.post('/api/admin/login', async (req, res) => {
   const { username, password } = req.body || {};
-  
-  console.log('📝 محاولة دخول:', username);
-  console.log('🔑 المطلوب:', ADMIN_USERNAME, ADMIN_PASSWORD);
-  
-  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+
+  if (!username || !password) {
+    return res.status(401).json({ error: 'اسم المستخدم أو كلمة السر غلط' });
+  }
+
+  try {
+    // 🔍 البحث عن الأدمن في Supabase
+    const { data, error } = await supabase
+      .from('admins')
+      .select('*')
+      .eq('username', username)
+      .single();
+
+    // لو مش موجود أو كلمة السر غلط
+    if (error || !data || data.password !== password) {
+      console.log('❌ فشل الدخول:', username);
+      return res.status(401).json({ error: 'اسم المستخدم أو كلمة السر غلط' });
+    }
+
+    // ✅ تسجيل الدخول ناجح
     const token = crypto.randomBytes(24).toString('hex');
     activeTokens.add(token);
-    console.log('✅ تسجيل دخول ناجح');
-    return res.json({ token });
+    console.log('✅ دخول ناجح:', username);
+    return res.json({ token, adminId: data.id });
+
+  } catch (err) {
+    console.error('Login error:', err);
+    return res.status(500).json({ error: 'حصل خطأ في السيرفر' });
   }
-  console.log('❌ فشل تسجيل الدخول');
-  return res.status(401).json({ error: 'اسم المستخدم أو كلمة السر غلط' });
 });
 
 app.post('/api/admin/logout', requireAuth, (req, res) => {
@@ -115,7 +128,7 @@ app.post('/api/admin/logout', requireAuth, (req, res) => {
 
 app.get('/api/admin/check', requireAuth, (req, res) => res.json({ ok: true }));
 
-// ========== باقي مسارات الأدمن ==========
+// ================= إدارة التصاميم (بحماية) =================
 
 app.get('/api/admin/designs', requireAuth, async (req, res) => {
   try {
@@ -258,6 +271,5 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
   console.log(`🧵 المنصة شغالة على http://localhost:${PORT}`);
-  console.log(`📊 لوحة تحكم الأدمن: http://localhost:${PORT}/admin/login.html`);
-  console.log(`👤 Admin: ${ADMIN_USERNAME} / ${ADMIN_PASSWORD}`);
+  console.log(`📊 لوحة التحكم: http://localhost:${PORT}/admin/login.html`);
 });
