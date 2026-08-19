@@ -8,8 +8,7 @@ const crypto = require('crypto');
 const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'atelier2026';
+const PORT = process.env.PORT || 3000;
 
 // ========== Supabase Client ==========
 const supabase = createClient(
@@ -90,16 +89,38 @@ app.get('/api/designs/:id', async (req, res) => {
   }
 });
 
-// ================= تسجيل الدخول للأدمن =================
+// ================= تسجيل الدخول للأدمن (من Supabase) =================
 
-app.post('/api/admin/login', (req, res) => {
+app.post('/api/admin/login', async (req, res) => {
   const { username, password } = req.body || {};
-  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+  
+  // لو مش مدخل حاجة
+  if (!username || !password) {
+    return res.status(401).json({ error: 'اسم المستخدم أو كلمة السر غلط' });
+  }
+
+  try {
+    // 🔍 البحث عن الأدمن في Supabase
+    const { data, error } = await supabase
+      .from('admins')
+      .select('*')
+      .eq('username', username)
+      .single();
+
+    // لو مش موجود أو كلمة السر غلط
+    if (error || !data || data.password !== password) {
+      return res.status(401).json({ error: 'اسم المستخدم أو كلمة السر غلط' });
+    }
+
+    // ✅ تسجيل الدخول ناجح
     const token = crypto.randomBytes(24).toString('hex');
     activeTokens.add(token);
-    return res.json({ token });
+    return res.json({ token, adminId: data.id });
+
+  } catch (err) {
+    console.error('Login error:', err);
+    return res.status(500).json({ error: 'حصل خطأ في السيرفر' });
   }
-  return res.status(401).json({ error: 'اسم المستخدم أو كلمة السر غلط' });
 });
 
 app.post('/api/admin/logout', requireAuth, (req, res) => {
