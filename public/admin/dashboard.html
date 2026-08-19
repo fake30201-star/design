@@ -12,8 +12,8 @@
 
 <header class="site-header">
   <div class="header-inner">
-    <div class="brand-wrapper">
-      <span class="brand-name"><span class="pin" style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--brass);box-shadow:0 0 0 3px rgba(184,146,46,0.18);margin-left:8px;"></span> أتيليه</span>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="brand"><span class="pin"></span> أتيليه</div>
       <a href="https://protofile-sepia.vercel.app/" target="_blank" class="mada-badge">
         <span class="star">✦</span>
         <span class="mada-text">
@@ -25,7 +25,7 @@
     <nav class="header-nav">
       <a href="/index.html">المعرض العام</a>
       <a href="/admin/dashboard.html" class="active">لوحة التحكم</a>
-      <a href="/admin/design-tool.html">أداة التصميم</a>
+      <!-- تم حذف رابط أداة التصميم -->
       <a href="#" id="logoutBtn">تسجيل خروج</a>
     </nav>
   </div>
@@ -39,7 +39,7 @@
     </div>
     <div class="admin-actions">
       <button class="btn ghost" id="quickAddBtn">إضافة تصميم بصورة جاهزة</button>
-      <a class="btn wine" href="/admin/design-tool.html">+ صمّم قطعة جديدة</a>
+      <!-- تم حذف زر أداة التصميم -->
     </div>
   </div>
 
@@ -48,7 +48,7 @@
   <div class="admin-grid" id="adminGrid"></div>
   <div class="empty-state" id="adminEmpty" style="display:none">
     <div class="mark">🧵</div>
-    <p>لسه معملتش أي تصميم. ابدأ بـ"صمّم قطعة جديدة" أو ارفع صورة جاهزة.</p>
+    <p>لسه معملتش أي تصميم. ارفع صورة جاهزة.</p>
   </div>
 </main>
 
