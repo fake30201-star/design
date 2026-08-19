@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم — أتيليه</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand"><span class="pin"></span> أتيليه</div>
+    <nav class="header-nav">
+      <a href="/index.html">المعرض العام</a>
+      <a href="/admin/dashboard.html" class="active">لوحة التحكم</a>
+      <a href="/admin/design-tool.html">أداة التصميم</a>
+      <a href="#" id="logoutBtn">تسجيل خروج</a>
+    </nav>
+  </div>
+</header>
+
+<main class="admin-wrap">
+  <div class="admin-top">
+    <div>
+      <div class="eyebrow">لوحة التحكم</div>
+      <h1>إدارة المعرض</h1>
+    </div>
+    <div class="admin-actions">
+      <button class="btn ghost" id="quickAddBtn">إضافة تصميم بصورة جاهزة</button>
+      <a class="btn wine" href="/admin/design-tool.html">+ صمّم قطعة جديدة</a>
+    </div>
+  </div>
+
+  <div class="stats-row" id="statsRow"></div>
+
+  <div class="admin-grid" id="adminGrid"></div>
+  <div class="empty-state" id="adminEmpty" style="display:none">
+    <div class="mark">🧵</div>
+    <p>لسه معملتش أي تصميم. ابدأ بـ"صمّم قطعة جديدة" أو ارفع صورة جاهزة.</p>
+  </div>
+</main>
+
+<div id="formRoot"></div>
+<div id="toastRoot"></div>
+
+<script src="/admin/js/auth.js"></script>
+<script src="/admin/js/dashboard.js"></script>
+</body>
+</html>
