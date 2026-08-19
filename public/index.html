@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أتيليه — معرض التصاميم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand"><span class="pin"></span> أتيليه</div>
+    <nav class="header-nav">
+      <a href="/index.html" class="active">المعرض</a>
+      <a href="/admin/login.html">لوحة التحكم</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">كتالوج التصاميم</div>
+  <h1>تصاميم مصمَّمة بعناية، قطعة قطعة</h1>
+  <p>مجموعة مختارة من تصاميم الملابس والفساتين، من مرحلة الفكرة لحد القطعة النهائية.</p>
+</section>
+
+<main class="gallery-wrap">
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty-state" id="empty" style="display:none">
+    <div class="mark">✂️</div>
+    <p>لسه مفيش تصاميم منشورة هنا.</p>
+  </div>
+</main>
+
+<div id="modalRoot"></div>
+
+<footer class="site-footer">أتيليه — منصة عرض التصاميم</footer>
+
+<script src="/js/gallery.js"></script>
+PORT=3000
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=atelier2026
+
+# Supabase Config
+SUPABASE_URL=https://amypoubutxljtcosgvcx.supabase.co
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFteXBvdWJ1dHhsanRjb3NndmN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNDY0MzEsImV4cCI6MjEwMjcyMjQzMX0.QVvj8J5qv58PY1qa1iXkkEsDb2aNMbtgKr4Sm7e8f-0
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFteXBvdWJ1dHhsanRjb3NndmN4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NzE0NjQzMSwiZXhwIjoyMTAyNzIyNDMxfQ.AxPjJQd9Ud4F3i-H-nLQ0f8Abw5jzPi__A8-rThS1y0
+</body>
+</html>
