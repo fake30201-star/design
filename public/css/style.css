@@ -695,30 +695,14 @@ a { color: inherit; }
    PART 13: M for MADA BADGE
    ============================================= */
 
-/* الحاوية الرئيسية للشعار + البادج */
-.brand-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 12px; /* المسافة بين أتيليه والبادج */
-  text-decoration: none;
-}
-
-/* اسم أتيليه */
-.brand-wrapper .brand-name {
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  font-size: 1.3rem;
-  color: var(--ink);
-}
-
-/* البادج المنفصل */
-.brand-wrapper .mada-badge {
-  display: flex;
+/* البادج المنفصل - بوردر حوالين الجمله بس */
+.mada-badge {
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 6px 16px;
   background: linear-gradient(135deg, #4c1d95, #2e1065);
-  border: 1.5px solid rgba(139, 92, 246, 0.4);
+  border: 1.5px solid rgba(139, 92, 246, 0.5);
   border-radius: 999px;
   box-shadow: 
     0 0 20px rgba(76, 29, 149, 0.3),
@@ -726,28 +710,27 @@ a { color: inherit; }
   text-decoration: none;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
-  position: relative;
 }
 
 /* تأثير هوفر */
-.brand-wrapper .mada-badge:hover {
+.mada-badge:hover {
   transform: scale(1.05);
   box-shadow: 
     0 0 30px rgba(76, 29, 149, 0.5),
     0 0 60px rgba(76, 29, 149, 0.2),
     inset 0 0 30px rgba(139, 92, 246, 0.1);
-  border-color: rgba(139, 92, 246, 0.7);
+  border-color: rgba(139, 92, 246, 0.8);
 }
 
 /* النجوم */
-.brand-wrapper .mada-badge .star {
+.mada-badge .star {
   color: #A78BFA;
   font-size: 0.7rem;
   opacity: 0.8;
 }
 
 /* النص M for MADA */
-.brand-wrapper .mada-badge .mada-text {
+.mada-badge .mada-text {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
   font-size: 0.85rem;
@@ -755,31 +738,13 @@ a { color: inherit; }
   letter-spacing: 0.5px;
 }
 
-.brand-wrapper .mada-badge .mada-text .highlight {
+.mada-badge .mada-text .highlight {
   color: #A78BFA;
   font-weight: 400;
 }
 
-.brand-wrapper .mada-badge .mada-text .letter-m {
+.mada-badge .mada-text .letter-m {
   color: #8B5CF6;
   font-size: 1.1em;
   text-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
-}
-
-/* =============================================
-   RESPONSIVE
-   ============================================= */
-@media (max-width: 600px) {
-  .brand-wrapper .brand-name {
-    font-size: 1rem;
-  }
-  .brand-wrapper .mada-badge {
-    padding: 4px 10px;
-  }
-  .brand-wrapper .mada-badge .mada-text {
-    font-size: 0.7rem;
-  }
-  .brand-wrapper .mada-badge .star {
-    font-size: 0.6rem;
-  }
 }
